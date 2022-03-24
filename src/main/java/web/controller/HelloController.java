@@ -1,17 +1,18 @@
 package web.controller;
 
-import Models.Car;
-import Service.CarServiceImpl;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import web.dao.CarDaoImpl;
+import web.model.Car;
+import web.service.CarService;
+import web.service.CarServiceImpl;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Callable;
+
 
 @Controller
 public class HelloController {
@@ -28,16 +29,10 @@ public class HelloController {
 
 	@GetMapping("/cars")
 	public String printCarTable(@RequestParam(value = "count", defaultValue = "5") int count, ModelMap model){
-		List<Car> cars = new ArrayList<>();
-		cars.add(new Car("Lexus", "Green", 2020));
-		cars.add(new Car("Jeep", "Yellow", 2021));
-		cars.add(new Car("Honda", "Black", 2019));
-		cars.add(new Car("Audi", "Purple", 2017));
-		cars.add(new Car("Lambargini", "Blue", 2022));
-		CarServiceImpl carService = new CarServiceImpl();
-		cars = CarServiceImpl.carsCount(cars,count);
-
-		model.addAttribute("cars", cars);
+		List<Car> carList = new ArrayList<>();
+		CarService carService = new CarServiceImpl(new CarDaoImpl());
+		carList = carService.carsCount(carList,count);
+		model.addAttribute("cars", carList);
 		return "cars";
 	}
 	

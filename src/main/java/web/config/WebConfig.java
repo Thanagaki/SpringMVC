@@ -20,7 +20,8 @@ public class WebConfig implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
 
-    public WebConfig(@Autowired ApplicationContext applicationContext) {
+    @Autowired
+    public WebConfig( ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 
